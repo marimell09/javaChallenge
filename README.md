@@ -1,5 +1,5 @@
 # Java Challenge
-Java CRUD implementation for Customer Service
+Java CRUD implementation for Customer Service.
 
 ### Challenge
 Implement an API CRUD for basic Customer Services using Java. It should contain a GET method to return the list of customers using pagination.
@@ -27,10 +27,10 @@ It was used Postman to test the routes, postgree for the database and everything
 - `POST /roles` - create new role
 -   Only allowed to customer with role ADMIN
 
-# Routes
+### Routes
 The following Route documentation can be found at Postman: https://www.getpostman.com/collections/59db24e7eb4ad817ada7
 
-# Enhancements
+### Enhancements
 + Delete Route
 + Get by Id
 + Junit tests

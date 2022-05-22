@@ -3,6 +3,8 @@ package com.javaChallenge.JavaChallenge.services;
 import com.javaChallenge.JavaChallenge.model.Customer;
 import com.javaChallenge.JavaChallenge.repository.CustomerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -29,5 +31,9 @@ public class CustomerService {
         Customer createdCustomer = customerRepository.save(customer);
 
         return createdCustomer;
+    }
+
+    public Page<Customer> listAll(Pageable pageable){
+        return customerRepository.findAll(pageable);
     }
 }

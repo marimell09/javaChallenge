@@ -4,8 +4,10 @@ import com.javaChallenge.JavaChallenge.dto.CreateCustomerRoleDTO;
 import com.javaChallenge.JavaChallenge.model.Customer;
 import com.javaChallenge.JavaChallenge.model.Role;
 import com.javaChallenge.JavaChallenge.repository.CustomerRepository;
+import com.javaChallenge.JavaChallenge.repository.RoleRepository;
 import com.javaChallenge.JavaChallenge.services.CustomerRoleService;
 import com.javaChallenge.JavaChallenge.services.CustomerService;
+import com.javaChallenge.JavaChallenge.services.RoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,31 +19,23 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@RequestMapping("api/v1/customers")
-public class CustomerController {
+@RequestMapping("api/v1/roles")
+@PreAuthorize("hasRole('ADMIN')")
+public class RoleController {
 
     @Autowired
-    private CustomerRepository customerRepository;
-
+    private RoleRepository roleRepository;
     @Autowired
-    private CustomerService customerService;
+    private RoleService roleService;
 
-    @Autowired
-    private CustomerRoleService customerRoleService;
-
-    @GetMapping
-    public List<Customer> getAllCustomers(){
-        return customerRepository.findAll();
-    }
 
     @PostMapping
-    public Customer create(@RequestBody Customer customer){
-        return customerService.create(customer);
+    public Role create(@RequestBody Role role){
+        return roleService.create(role);
     }
 
-    @PostMapping("/roles")
-    @PreAuthorize("hasRole('ADMIN')")
-    public Customer role(@RequestBody CreateCustomerRoleDTO createCustomerRoleDTO){
-        return customerRoleService.create(createCustomerRoleDTO);
+    @GetMapping
+    public List<Role> getRoles(){
+        return roleRepository.findAll();
     }
 }

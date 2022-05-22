@@ -1,6 +1,6 @@
 package com.javaChallenge.JavaChallenge.services;
 
-import com.javaChallenge.JavaChallenge.dto.CreateCustomerRoleDTO;
+import com.javaChallenge.JavaChallenge.dto.CreateCustomerRoleDto;
 import com.javaChallenge.JavaChallenge.model.Customer;
 import com.javaChallenge.JavaChallenge.model.Role;
 import com.javaChallenge.JavaChallenge.repository.CustomerRepository;
@@ -19,7 +19,7 @@ public class CustomerRoleService {
     CustomerRepository customerRepository;
 
 
-    public Customer create(CreateCustomerRoleDTO createCustomerRoleDTO) {
+    public Customer create(CreateCustomerRoleDto createCustomerRoleDTO) {
 
         Optional<Customer> customerExists = customerRepository.findById(createCustomerRoleDTO.getIdUser());
         List<Role> roles = new ArrayList<>();

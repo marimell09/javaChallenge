@@ -6,12 +6,12 @@ import java.util.List;
 import java.util.UUID;
 
 @Data
-public class CreateCustomerRoleDTO {
+public class CreateCustomerRoleDto {
 
     private UUID idUser;
 
     private List<UUID> idsRoles;
 
-    public CreateCustomerRoleDTO() {
+    public CreateCustomerRoleDto() {
     }
 }

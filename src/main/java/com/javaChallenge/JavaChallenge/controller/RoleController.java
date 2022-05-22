@@ -1,12 +1,7 @@
 package com.javaChallenge.JavaChallenge.controller;
 
-import com.javaChallenge.JavaChallenge.dto.CreateCustomerRoleDTO;
-import com.javaChallenge.JavaChallenge.model.Customer;
 import com.javaChallenge.JavaChallenge.model.Role;
-import com.javaChallenge.JavaChallenge.repository.CustomerRepository;
 import com.javaChallenge.JavaChallenge.repository.RoleRepository;
-import com.javaChallenge.JavaChallenge.services.CustomerRoleService;
-import com.javaChallenge.JavaChallenge.services.CustomerService;
 import com.javaChallenge.JavaChallenge.services.RoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;

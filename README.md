@@ -31,7 +31,6 @@ It was used Postman to test the routes, postgree for the database and everything
 The following Route documentation can be found at Postman: https://www.getpostman.com/collections/59db24e7eb4ad817ada7
 
 ### Enhancements
-+ Delete Route
 + Get by Id
 + Junit tests
 + JWT full implementation

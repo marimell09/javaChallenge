@@ -16,16 +16,16 @@ It was used Postman to test the routes, postgree for the database and everything
 - `GET /customers?size=&page=` - obtain customers list with pagination
 - `POST /customers` - create customer
 - `PUT /customers/{username}` - update customer information
-      Only allowed to update firstname and lastname
+      (Only allowed to update firstname and lastname)
 - `POST /customers/roles` - attributes a role to a customer
-      Only allowed to customer with role ADMIN
+      (Only allowed to customer with role ADMIN)
 
 #### `/roles`
 
 - `GET /roles` - get list of roles without pagination
-      Only allowed to customer with role ADMIN
+      (Only allowed to customer with role ADMIN)
 - `POST /roles` - create new role
-      Only allowed to customer with role ADMIN
+      (Only allowed to customer with role ADMIN)
 
 ### Routes
 The following Route documentation can be found at Postman: https://www.getpostman.com/collections/59db24e7eb4ad817ada7

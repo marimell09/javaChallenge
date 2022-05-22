@@ -52,4 +52,14 @@ public class CustomerService {
 
         return updatedCustomer;
     }
+
+    public void delete(String username){
+        Customer existsCustomer = customerRepository.findByUsername(username);
+
+        if(existsCustomer == null){
+            throw new Error("Couldn't delete customer!");
+        }
+
+        customerRepository.delete(existsCustomer);
+    }
 }

@@ -12,6 +12,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -19,8 +20,6 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.UUID;
 
 @RestController
 @RequestMapping("api/v1/customers")
@@ -54,5 +53,11 @@ public class CustomerController {
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Customer> role(@RequestBody CreateCustomerRoleDto createCustomerRoleDTO){
         return ResponseEntity.ok(customerRoleService.create(createCustomerRoleDTO));
+    }
+
+    @DeleteMapping(value="/{username}")
+    public ResponseEntity delete(@PathVariable String username){
+        customerService.delete(username);
+        return ResponseEntity.noContent().build();
     }
 }

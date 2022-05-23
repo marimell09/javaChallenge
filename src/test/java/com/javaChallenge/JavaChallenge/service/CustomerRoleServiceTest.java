@@ -1,6 +1,7 @@
 package com.javaChallenge.JavaChallenge.service;
 
 import com.javaChallenge.JavaChallenge.dto.CreateCustomerRoleDto;
+import com.javaChallenge.JavaChallenge.exception.ResourceNotFoundException;
 import com.javaChallenge.JavaChallenge.model.Customer;
 import com.javaChallenge.JavaChallenge.repository.CustomerRepository;
 import com.javaChallenge.JavaChallenge.services.CustomerRoleService;
@@ -45,7 +46,7 @@ public class CustomerRoleServiceTest {
 
 
     @Test
-    void shouldCreateCustomerRoleSuccessfully(){
+    void shouldCreateCustomerRoleSuccessfully() throws ResourceNotFoundException {
         given(customerRepository.findById(customerId)).willReturn(Optional.of(customer));
 
         given(customerRepository.save(customer)).willAnswer(invocation -> invocation.getArgument(0));

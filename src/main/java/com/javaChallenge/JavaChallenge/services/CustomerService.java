@@ -1,13 +1,13 @@
 package com.javaChallenge.JavaChallenge.services;
 
 import com.javaChallenge.JavaChallenge.dto.UpdateCustomerDto;
+import com.javaChallenge.JavaChallenge.exception.ResourceDuplicatedException;
+import com.javaChallenge.JavaChallenge.exception.ResourceNotFoundException;
 import com.javaChallenge.JavaChallenge.model.Customer;
 import com.javaChallenge.JavaChallenge.repository.CustomerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.support.NullValue;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.lang.Nullable;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -22,11 +22,17 @@ public class CustomerService {
         return new BCryptPasswordEncoder();
     }
 
-    public Customer create(Customer customer){
-        Customer existsCustomer = customerRepository.findByUsername(customer.getUsername());
+    /**
+     * Create customer
+     * @param customer information to be created
+     * @return the customer created
+     * @throws ResourceDuplicatedException if customer already exists
+     */
+    public Customer create(Customer customer) throws ResourceDuplicatedException {
+        Customer customerFound = customerRepository.findByUsername(customer.getUsername());
 
-        if (existsCustomer != null){
-            throw new Error("Customer already exists!");
+        if (!checkCustomerExistence(customerFound)){
+            throw new ResourceDuplicatedException("Customer already exist!");
         }
 
         customer.setPassword(passwordEncoder().encode(customer.getPassword()));
@@ -34,32 +40,61 @@ public class CustomerService {
         return createdCustomer;
     }
 
+    /**
+     * List all the customers, using pagination based on user parameters.
+     * @param pageable the user parameters e.g.: size or page.
+     * @return The list of all customers based on the pagination
+     */
     public Page<Customer> listAll(Pageable pageable){
         return customerRepository.findAll(pageable);
     }
 
-    public Customer update(String username, UpdateCustomerDto updateCustomerDto){
-        Customer existsCustomer = customerRepository.findByUsername(username);
+    /**
+     * Update customer information. The information allowed to be updated are only the first name and last name.
+     * @param username the customer identifier in order for the update to happen
+     * @param updateCustomerDto the customer information to be updated
+     * @return the customer updated
+     * @throws ResourceDuplicatedException if customer doesn't exist
+     */
+    public Customer update(String username, UpdateCustomerDto updateCustomerDto) throws ResourceNotFoundException {
+        Customer customerFound = customerRepository.findByUsername(username);
 
-        if(existsCustomer == null){
-            throw new Error("Couldn't update customer!");
+        if (checkCustomerExistence(customerFound)){
+            throw new ResourceNotFoundException("Customer doesn't exist!");
         }
 
-        existsCustomer.setFirstName(updateCustomerDto.getFirstName());
-        existsCustomer.setLastName(updateCustomerDto.getLastName());
+        customerFound.setFirstName(updateCustomerDto.getFirstName());
+        customerFound.setLastName(updateCustomerDto.getLastName());
 
-        Customer updatedCustomer = customerRepository.save(existsCustomer);
+        Customer updatedCustomer = customerRepository.save(customerFound);
 
         return updatedCustomer;
     }
 
-    public void delete(String username){
-        Customer existsCustomer = customerRepository.findByUsername(username);
+    /**
+     * Delete customer
+     * @param username the customer identifier in order for the deletion to happen
+     * @throws ResourceDuplicatedException if the customer doesn't exist
+     */
+    public void delete(String username) throws ResourceNotFoundException {
+        Customer customerFound = customerRepository.findByUsername(username);
 
-        if(existsCustomer == null){
-            throw new Error("Couldn't delete customer!");
+        if (checkCustomerExistence(customerFound)){
+            throw new ResourceNotFoundException("Customer doesn't exist!");
         }
 
-        customerRepository.delete(existsCustomer);
+        customerRepository.delete(customerFound);
+    }
+
+    /**
+     * Check if customer exists.
+     * @param customer - the customer object
+     * @return true if customer does exists, or false if it doesn't.
+     */
+    public boolean checkCustomerExistence(Customer customer){
+        if(customer != null){
+            return false;
+        }
+        return true;
     }
 }

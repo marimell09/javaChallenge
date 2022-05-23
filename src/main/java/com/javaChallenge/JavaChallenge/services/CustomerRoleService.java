@@ -1,6 +1,7 @@
 package com.javaChallenge.JavaChallenge.services;
 
 import com.javaChallenge.JavaChallenge.dto.CreateCustomerRoleDto;
+import com.javaChallenge.JavaChallenge.exception.ResourceNotFoundException;
 import com.javaChallenge.JavaChallenge.model.Customer;
 import com.javaChallenge.JavaChallenge.model.Role;
 import com.javaChallenge.JavaChallenge.repository.CustomerRepository;
@@ -19,13 +20,19 @@ public class CustomerRoleService {
     CustomerRepository customerRepository;
 
 
-    public Customer create(CreateCustomerRoleDto createCustomerRoleDTO) {
+    /**
+     * Attributed roles to the customer.
+     * @param createCustomerRoleDTO the customer and roles information for the attribution
+     * @return the customer with it's attributed roles
+     * @throws ResourceNotFoundException when customer was not found
+     */
+    public Customer create(CreateCustomerRoleDto createCustomerRoleDTO) throws ResourceNotFoundException {
 
         Optional<Customer> customerExists = customerRepository.findById(createCustomerRoleDTO.getIdUser());
         List<Role> roles = new ArrayList<>();
 
         if (customerExists.isEmpty()) {
-            throw new Error("Customer does not exists!");
+            throw new ResourceNotFoundException("Customer does not exist!");
         }
 
         roles = createCustomerRoleDTO.getIdsRoles().stream().map(role -> {

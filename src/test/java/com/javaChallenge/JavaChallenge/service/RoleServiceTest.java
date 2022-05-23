@@ -1,5 +1,6 @@
 package com.javaChallenge.JavaChallenge.service;
 
+import com.javaChallenge.JavaChallenge.exception.ResourceDuplicatedException;
 import com.javaChallenge.JavaChallenge.model.Customer;
 import com.javaChallenge.JavaChallenge.model.Role;
 import com.javaChallenge.JavaChallenge.repository.CustomerRepository;
@@ -31,7 +32,7 @@ public class RoleServiceTest {
     final Role role = new Role(null, "ADMIN");
 
     @Test
-    void shouldCreateRoleSuccessfully(){
+    void shouldCreateRoleSuccessfully() throws ResourceDuplicatedException {
         given(roleRepository.findByName(role.getName())).willReturn(null);
 
         given(roleRepository.save(role)).willAnswer(invocation -> invocation.getArgument(0));
@@ -43,10 +44,10 @@ public class RoleServiceTest {
     }
 
     @Test
-    void shouldThrowErrorWhenCreateCustomerWithExistingUsername(){
+    void shouldThrowExceptionWhenRoleAlreadyExist(){
         given(roleRepository.findByName(role.getName())).willReturn(role);
 
-        assertThrows(Error.class,() -> {
+        assertThrows(ResourceDuplicatedException.class,() -> {
             roleService.create(role);
         });
         verify(roleRepository, never()).save(any(Role.class));

@@ -1,5 +1,6 @@
 package com.javaChallenge.JavaChallenge.services;
 
+import com.javaChallenge.JavaChallenge.exception.ResourceDuplicatedException;
 import com.javaChallenge.JavaChallenge.model.Role;
 import com.javaChallenge.JavaChallenge.repository.RoleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,11 +18,11 @@ public class RoleService {
         return new BCryptPasswordEncoder();
     }
 
-    public Role create(Role role){
+    public Role create(Role role) throws ResourceDuplicatedException {
         Role existsRole = roleRepository.findByName(role.getName());
 
         if (existsRole != null){
-            throw new Error("Role already exists!");
+            throw new ResourceDuplicatedException("Role already exist!");
         }
 
         Role createdRole = roleRepository.save(role);

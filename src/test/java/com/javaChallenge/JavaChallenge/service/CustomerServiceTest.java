@@ -1,6 +1,8 @@
 package com.javaChallenge.JavaChallenge.service;
 
 import com.javaChallenge.JavaChallenge.dto.UpdateCustomerDto;
+import com.javaChallenge.JavaChallenge.exception.ResourceDuplicatedException;
+import com.javaChallenge.JavaChallenge.exception.ResourceNotFoundException;
 import com.javaChallenge.JavaChallenge.model.Customer;
 import com.javaChallenge.JavaChallenge.repository.CustomerRepository;
 import com.javaChallenge.JavaChallenge.services.CustomerService;
@@ -53,7 +55,7 @@ public class CustomerServiceTest {
     final UpdateCustomerDto updateDto = new UpdateCustomerDto(updatedCustomer.getFirstName(), updatedCustomer.getLastName());
 
     @Test
-    void shouldCreateCustomerSuccessfully(){
+    void shouldCreateCustomerSuccessfully() throws ResourceDuplicatedException {
         given(customerRepository.findByUsername(customer.getUsername())).willReturn(null);
         given(customerRepository.save(customer)).willAnswer(invocation -> invocation.getArgument(0));
 
@@ -65,10 +67,10 @@ public class CustomerServiceTest {
     }
 
     @Test
-    void shouldThrowErrorWhenCreateCustomerWithExistingUsername(){
+    void shouldThrowExceptionWhenCreateCustomerWithExistingUsername(){
         given(customerRepository.findByUsername(customer.getUsername())).willReturn(customer);
 
-        assertThrows(Error.class,() -> {
+        assertThrows(ResourceDuplicatedException.class,() -> {
           customerService.create(customer);
         });
 
@@ -76,7 +78,7 @@ public class CustomerServiceTest {
     }
 
     @Test
-    void updateCustomer(){
+    void updateCustomer() throws ResourceNotFoundException {
 
         given(customerRepository.findByUsername(customer.getUsername())).willReturn(customer);
         when(customerRepository.save(any())).thenReturn(updatedCustomer);
@@ -101,7 +103,7 @@ public class CustomerServiceTest {
     }
 
     @Test
-    void shouldDelete(){
+    void shouldDelete() throws ResourceNotFoundException {
         given(customerRepository.findByUsername(customer.getUsername())).willReturn(customer);
 
         customerService.delete(customer.getUsername());
@@ -109,10 +111,10 @@ public class CustomerServiceTest {
     }
 
     @Test
-    void shouldThrowErrorWhenDeleteCustomerWithCustomerNonExistent(){
+    void shouldThrowExceptionWhenDeleteCustomerWithCustomerNonExistent(){
         given(customerRepository.findByUsername(customer.getUsername())).willReturn(null);
 
-        assertThrows(Error.class,() -> {
+        assertThrows(ResourceNotFoundException.class,() -> {
             customerService.delete(customer.getUsername());
         });
 

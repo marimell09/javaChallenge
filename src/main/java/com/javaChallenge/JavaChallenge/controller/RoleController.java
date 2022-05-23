@@ -1,5 +1,6 @@
 package com.javaChallenge.JavaChallenge.controller;
 
+import com.javaChallenge.JavaChallenge.exception.ResourceDuplicatedException;
 import com.javaChallenge.JavaChallenge.model.Role;
 import com.javaChallenge.JavaChallenge.repository.RoleRepository;
 import com.javaChallenge.JavaChallenge.services.RoleService;
@@ -26,7 +27,7 @@ public class RoleController {
 
 
     @PostMapping
-    public ResponseEntity<Role> create(@RequestBody Role role){
+    public ResponseEntity<Role> create(@RequestBody Role role) throws ResourceDuplicatedException {
         return ResponseEntity.ok(roleService.create(role));
     }
 

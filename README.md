@@ -9,7 +9,7 @@ The Customer registration may be simple, with basic data, and it must run locall
 For the challenge, it was implement a BASIC CRUD API for Customer and it's roles.
 For the anthentication and authorization, it was used Basic Auth, instead of JWT, in order to be a simpler implementation.
 Also, the libs and methods used for the authentication and authorization are currently deprecated, so in the enhancaments, it was included an item for this matter.
-It was used Postman to test the routes, postgree for the database and everything was run locally.
+It was used Postman to test the routes, postgree for the database, Junit and Mockito for service layer tests.
 
 #### `/customers`
 
@@ -32,7 +32,6 @@ The following Route documentation can be found at Postman: https://www.getpostma
 
 ### Enhancements
 + Get by Id
-+ Junit tests
 + JWT full implementation
 + Authorization enhancement lib deprecated
 + Authentication using JWT

@@ -17,6 +17,7 @@ It was used Postman to test the routes, postgree for the database, Junit and Moc
 - `POST /customers` - create customer
 - `PUT /customers/{username}` - update customer information
       (Only allowed to update firstname and lastname)
+- `DELETE /customers/{username}` - delete customer
 - `POST /customers/roles` - attributes a role to a customer
       (Only allowed to customer with role ADMIN)
 
